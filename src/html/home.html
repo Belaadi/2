@@ -1,0 +1,333 @@
+<main class="container max-h-[calc(100vh-80px)] overflow-y-scroll overflow-x-hidden py-8 max-w-[440px] no-scrollbar">
+    <div class="mb-[10px] justify-center flex-1">
+        <div class="py-2 px-4 min-w-fit bg-[#D6D6D619] rounded-md border border-[#D6D6D622]">
+            <div class="flex gap-2 items-center">
+                <img class="w-8 h-8 rounded-full" src="/public/images/icons/trx.svg" alt=""/>
+                <div>
+                    <p class="text-xs">Tron Balance</p>
+                    <p class="text-sm font-bold">13.92 TRX</p>
+                </div>
+                <div class="ml-auto">
+                    <div class="cursor-pointer contents" onclick="openModal(document.getElementById('modal_send_TRX'));">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow bg-stone-50 text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 flex-1 font-semibold text-xs">Send</button>
+                    </div>
+                    <script>
+                        function updateSendTRXButton(amount) {
+                            const min = 20;
+                            const available = 13.92;
+                            const total_display = document.getElementById('modal_send_TRX_total');
+
+                            total_display.innerHTML = amount - 2.5 < 0 ? 0 : amount - 2.5;
+
+                            const button = document.getElementById('modal_send_TRX_send');
+                            if (available >= min && amount >= min && amount <= available) {
+                                button.disabled = false;
+                            } else {
+                                button.disabled = true;
+                            }
+                        }
+                    </script>
+                    <div id="modal_send_TRX" class="modal fixed inset-0 hidden" style="pointer-events: auto; transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0s; transform: translate3d(0px, 0px, 0px);" aria-hidden="true" aria-modal="true" tabindex="-1">
+                        <div class="modal_box grid gap-1.5 p-4 text-center sm:text-left" style="position: fixed;">
+                            <div class="text-lg font-semibold leading-none tracking-tight vaul-scrollable">Enter your personal TRX address</div>
+                            <p class="text-sm text-muted-foreground">This amount will be sent to the TRC20 compatible wallet address</p>
+                            <b class="text-sm text-muted-foreground">Minimum send amount is 20 TRX</b>
+                            <div id="modal_send_TRX_message"></div>
+                            <div>
+                                <form hx-post="/api/v0/send" hx-target="#modal_send_TRX_message" hx-encoding="multipart/form-data" hx-indicator="#modal_send_TRXspinner">
+                                    <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 mb-2 border-black/40" type="text" name="address" placeholder="Your TRX (TRC20) Address">
+                                    <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 mb-2 border-black/40" type="number" name="amount" placeholder="Amount" oninput="updateSendTRXButton(this.value)">
+                                    <b class="block text-sm text-muted-foreground text-orange-500">Network fee: 2.5 TRX</b>
+                                    <b class="block text-md text-muted-foreground">
+                                        Receive amount: <span id="modal_send_TRX_total">0</span>
+                                        TRX
+                                    </b>
+                                    <button disabled class="my-1 w-full text-white/80 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 border shadow-sm border-stone-800 bg-stone-950 hover:bg-stone-800 hover:text-stone-50 h-9 px-4 py-2" type="submit" id="modal_send_TRX_send">
+                                        <span>Send</span>
+                                        <svg id="modal_send_TRXspinner" class="htmx-indicator absolute animate-spin ml-16" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                            <g fill="currentColor">
+                                                <path fill-rule="evenodd" d="M12 19a7 7 0 1 0 0-14a7 7 0 0 0 0 14Zm0 3c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10Z" clip-rule="evenodd" opacity=".2"/>
+                                                <path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 0 0-7 7H2Z"/>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                    <input type="hidden" name="coin" value="TRX">
+                                    <input type="hidden" name="u" value="a03a39b7-21bf-11ef-a14f-0242ac110002">
+                                </form>
+                                <button class="mb-1 w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow  bg-stone-50 text-stone-900text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 min-w-20" onclick="closeModal(document.getElementById('modal_send_TRX'));">Not yet</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-[10px] justify-center flex-1">
+        <div class="py-2 px-4 min-w-fit bg-[#D6D6D619] rounded-md border border-[#D6D6D622]">
+            <div class="flex gap-2 items-center">
+                <img class="w-8 h-8 rounded-full" src="/public/images/icons/shib.svg" alt=""/>
+                <div>
+                    <p class="text-xs">BNB Balance</p>
+                    <p class="text-sm font-bold">0 BNB</p>
+                </div>
+                <div class="ml-auto">
+                    <div class="cursor-pointer contents" onclick="openModal(document.getElementById('modal_send_SHIB'));">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow bg-stone-50 text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 flex-1 font-semibold text-xs">Send</button>
+                    </div>
+                    <script>
+                        function updateSendSHIBButton(amount) {
+                            const min = 300000;
+                            const available = 0;
+                            const total_display = document.getElementById('modal_send_SHIB_total');
+
+                            total_display.innerHTML = amount - 30000 < 0 ? 0 : amount - 30000;
+
+                            const button = document.getElementById('modal_send_SHIB_send');
+                            if (available >= min && amount >= min && amount <= available) {
+                                button.disabled = false;
+                            } else {
+                                button.disabled = true;
+                            }
+                        }
+                    </script>
+                    <div id="modal_send_SHIB" class="modal fixed inset-0 hidden" style="pointer-events: auto; transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0s; transform: translate3d(0px, 0px, 0px);" aria-hidden="true" aria-modal="true" tabindex="-1">
+                        <div class="modal_box grid gap-1.5 p-4 text-center sm:text-left" style="position: fixed;">
+                            <div class="text-lg font-semibold leading-none tracking-tight vaul-scrollable">Enter your personal BNB address</div>
+                            <p class="text-sm text-muted-foreground">This amount will be sent to the BEP20 compatible wallet address</p>
+                            <b class="text-sm text-muted-foreground">Minimum send amount is 300000 BNB</b>
+                            <div id="modal_send_SHIB_message"></div>
+                            <div>
+                                <form hx-post="/api/v0/send" hx-target="#modal_send_SHIB_message" hx-encoding="multipart/form-data" hx-indicator="#modal_send_SHIBspinner">
+                                    <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 mb-2 border-black/40" type="text" name="address" placeholder="Your BNB (BEP20) Address">
+                                    <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 mb-2 border-black/40" type="number" name="amount" placeholder="Amount" oninput="updateSendSHIBButton(this.value)">
+                                    <b class="block text-sm text-muted-foreground text-orange-500">Network fee: 30000 BNB</b>
+                                    <b class="block text-md text-muted-foreground">
+                                        Receive amount: <span id="modal_send_SHIB_total">0</span>
+                                        BNB
+                                    </b>
+                                    <button disabled class="my-1 w-full text-white/80 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 border shadow-sm border-stone-800 bg-stone-950 hover:bg-stone-800 hover:text-stone-50 h-9 px-4 py-2" type="submit" id="modal_send_SHIB_send">
+                                        <span>Send</span>
+                                        <svg id="modal_send_SHIBspinner" class="htmx-indicator absolute animate-spin ml-16" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                            <g fill="currentColor">
+                                                <path fill-rule="evenodd" d="M12 19a7 7 0 1 0 0-14a7 7 0 0 0 0 14Zm0 3c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10Z" clip-rule="evenodd" opacity=".2"/>
+                                                <path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 0 0-7 7H2Z"/>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                    <input type="hidden" name="coin" value="BNB">
+                                    <input type="hidden" name="u" value="a03a39b7-21bf-11ef-a14f-0242ac110002">
+                                </form>
+                                <button class="mb-1 w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow  bg-stone-50 text-stone-900text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 min-w-20" onclick="closeModal(document.getElementById('modal_send_SHIB'));">Not yet</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="spinner" class="w-full flex justify-center my-5 relative user-select-none">
+        <div class="user-select-none">
+            <img class="h-auto w-[260px] user-select-none" src="/public/images/spinner2.webp" draggable="false">
+        </div>
+    </div>
+    <script>
+        const el = document.querySelector('#spinner')
+        el.addEventListener('click', ()=>{
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium')
+                if (!el.classList.contains('animate-boing')) {
+                    el.classList.add('animate-boing')
+                    setTimeout(()=>{
+                            el.classList.remove('animate-boing')
+                        }
+                        , 500)
+                }
+            }
+        )
+    </script>
+    <script>
+        const fpms = 10;
+        const rpms = 5.2E-9;
+        let mined = 0.0076800000000006;
+
+        setInterval(()=>{
+                const miner_num = document.getElementById("miner-num");
+                mined = mined + (rpms * fpms)
+                miner_num.innerHTML = mined.toFixed(6);
+            }
+            , fpms);
+    </script>
+    <b class="text-center text-3xl mt-1 flex gap-1 justify-center font-mono">
+        <span id="miner-num"></span>
+        TRX
+    </b>
+    <div class="text-center text-sm flex gap-1 justify-center">
+        <b class="text-lg">
+            <span id="miner-power"></span>
+            0.0 GH/s ⚡
+        </b>
+    </div>
+    <div class="w-full flex justify-center my-5 gap-2 text-md">
+        <div class="cursor-pointer contents" onclick="openModal(document.getElementById('modal_claim'));">
+            <button class="flex-1 font-bold inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow bg-stone-50 text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 flex-1 font-bold">Claim</button>
+        </div>
+        <div id="modal_claim" class="modal fixed inset-0 hidden" style="pointer-events: auto; transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0s; transform: translate3d(0px, 0px, 0px);" aria-hidden="true" aria-modal="true" tabindex="-1">
+            <div class="modal_box grid gap-1.5 p-4 text-center sm:text-left" style="position: fixed;">
+                <div class="text-lg font-semibold leading-none tracking-tight vaul-scrollable">Claim TRX to Wallet Balance</div>
+                <p class="text-sm text-muted-foreground">Once claimed, the mined TRX will be deducted from your mining balance and will be credited to your wallet balance.
+                </p>
+                <b class="text-sm text-muted-foreground">Minimum claim amount is 1 TRX.
+                </b>
+                <div id="modal_claim_message"></div>
+                <div>
+                    <form hx-post="/api/v0/claim" hx-target="#modal_claim_message" hx-encoding="multipart/form-data" hx-indicator="#modal_claim_spinner">
+                        <button class="mb-1 w-full text-white/80 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 border shadow-sm border-stone-800 bg-stone-950 hover:bg-stone-800 hover:text-stone-50 h-9 px-4 py-2" role="submit" id="claim_button">
+                            <span>Claim</span>
+                            <svg id="modal_claim_spinner" class="htmx-indicator absolute animate-spin ml-16" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <g fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12 19a7 7 0 1 0 0-14a7 7 0 0 0 0 14Zm0 3c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10Z" clip-rule="evenodd" opacity=".2"/>
+                                    <path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 0 0-7 7H2Z"/>
+                                </g>
+                            </svg>
+                        </button>
+                        <input type="hidden" name="u" value="a03a39b7-21bf-11ef-a14f-0242ac110002">
+                    </form>
+                    <button class="mb-1 w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow bg-stone-50 text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 min-w-20" onclick="closeModal(document.getElementById('modal_claim'));">Not yet</Button>
+                </div>
+            </div>
+        </div>
+        <div class="cursor-pointer contents" onclick="openModal(document.getElementById('modal_deposit'));">
+            <button class="flex-1 font-bold inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow bg-stone-50 text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 flex-1 font-bold">Boost</button>
+        </div>
+        <script>
+            let add_rate = 100;
+            let add_power = "10.0 GH/s";
+
+            function updateAddNum(num) {
+
+                add_rate = num
+                if (num >= 10000000)
+                    document.getElementById(`calc-button-add`).disabled = true
+                else if (num < 100)
+                    document.getElementById(`calc-button-add`).disabled = true
+                else
+                    document.getElementById(`calc-button-add`).disabled = false
+
+                if (add_rate >= 10000)
+                    add_power = `${(add_rate / 10000).toFixed(1)} TH/s`
+                else
+                    add_power = `${(add_rate / 10).toFixed(1)} GH/s`
+
+                document.getElementById(`calc-power`).innerHTML = `⚡ ${add_power}`;
+                document.getElementById(`calc-total`).innerHTML = `Total Profit: ~${add_rate * 1.34784} TRX`;
+                document.getElementById(`calc-daily`).innerHTML = `Daily Profit: ~${Math.floor(((add_rate * 1.34784) / 30) * 100) / 100} TRX`;
+                document.getElementById(`calc-input`).value = add_rate;
+                document.getElementById(`calc-button`).href = `/payment?amount=${add_rate}`;
+            }
+        </script>
+        <div id="modal_deposit" class="modal fixed inset-0 hidden" style="pointer-events: auto; transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0s; transform: translate3d(0px, 0px, 0px);" aria-hidden="true" aria-modal="true" tabindex="-1">
+            <div class="modal_box grid gap-1.5 p-4 text-center sm:text-left" style="position: fixed;">
+                <div class="text-lg font-semibold leading-none tracking-tight vaul-scrollable">Mining Power</div>
+                <p class="text-sm text-muted-foreground">
+                    Here you can rent mining power for 30 days.
+                    <br/>The investment profitability is 4.4928% per day and 134.784% for 30
+                    days.
+
+                </p>
+                <div class="p-4 pb-0">
+                    <div class="flex items-center justify-center space-x-2">
+                        <!-- <button
+                        size="icon"
+                        class="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => onClick(rate / 10)}
+                        disabled={num <= min}
+                    >
+                        <b>÷ 10</b>
+                        <span class="sr-only">Decrease</span>
+                    </button> -->
+                        <!-- <button
+                        size="icon"
+                        class="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => onClick(rate - 10)}
+                        disabled={num <= min}
+                    >
+                        <b>- 1</b>
+                        <span class="sr-only">Decrease</span>
+                    </button> -->
+                        <div class="flex-1 text-center">
+                            <div class="text-2xl font-bold tracking-tighter" id="calc-power"></div>
+                            <div class="text-[0.75rem] text-muted-foreground" id="calc-total"></div>
+                            <div class="text-[0.75rem] text-muted-foreground" id="calc-daily"></div>
+                        </div>
+                        <!-- <button
+                        size="icon"
+                        class="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => onClick(rate + 10)}
+                        disabled={num >= max}
+                    >
+                        <b>+ 1</b>
+                        <span class="sr-only">Increase</span>
+                    </button> -->
+                        <!-- <button
+                        size="icon"
+                        class="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => onClick(rate * 10)}
+                        disabled={num >= max}
+                    >
+                        <b>× 10</b>
+                        <span class="sr-only">Increase</span>
+                    </button> -->
+                    </div>
+                </div>
+                <div>
+                    <div class="relative flex w-full items-center justify-center">
+                        <input class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-center text-lg font-semibold text-center text-lg font-semibold border-black/40" id="calc-input" type="number" oninput="updateAddNum(this.value)" value="100"/>
+                        <div class="absolute right-2 top-1/2 -translate-y-1/2 text-black/50 font-semibold">TRX
+                        </div>
+                    </div>
+                    <div class="text-[0.75rem] text-muted-foreground text-center my-2">Minimum amount: 100 TRX</div>
+                    <a class="w-full contents" id="calc-button" href="/payment?amount=100" onclick="document.getElementById('modal_add_spinner').classList.add('htmx-request')">
+                        <button id="calc-button-add" class="w-full text-white/80 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 border shadow-sm border-stone-800 bg-stone-950 hover:bg-stone-800 hover:text-stone-50 h-9 px-4 py-2">
+                            <span>Add</span>
+                            <svg id="modal_add_spinner" class="htmx-indicator absolute animate-spin ml-16" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <g fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12 19a7 7 0 1 0 0-14a7 7 0 0 0 0 14Zm0 3c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10Z" clip-rule="evenodd" opacity=".2"/>
+                                    <path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 0 0-7 7H2Z"/>
+                                </g>
+                            </svg>
+                        </Button>
+                    </a>
+                    <button class="mb-1 w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-stone-300 shadow bg-stone-50 text-stone-900 hover:bg-stone-50/90 h-9 px-4 py-2 min-w-20" onclick="closeModal(document.getElementById('modal_deposit'));">Back</Button>
+                </div>
+                <script>
+                    updateAddNum(100)
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="w-full z-0 my-5">
+        <div autoplay="1000" speed="500" loop="true">
+
+        </div>
+    </div>
+    <div id="page-loader" class="fixed -z-50 opacity-0 inset-0 w-full h-full flex items-center justify-center bg-black/80 duration-300">
+        <svg class="animate-spin w-20 h-20" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 16c-2.137 0-4.146-.832-5.657-2.343S0 10.137 0 8c0-1.513.425-2.986 1.228-4.261A8.02 8.02 0 0 1 4.421.844l.672 1.341a6.53 6.53 0 0 0-2.596 2.354A6.48 6.48 0 0 0 1.5 8c0 3.584 2.916 6.5 6.5 6.5s6.5-2.916 6.5-6.5c0-1.23-.345-2.426-.997-3.461a6.515 6.515 0 0 0-2.596-2.354l.672-1.341a8.02 8.02 0 0 1 3.193 2.895A7.981 7.981 0 0 1 16 8c0 2.137-.832 4.146-2.343 5.657S10.137 16 8 16z"/>
+        </svg>
+    </div>
+    <style>
+        #page-loader.show {
+            opacity: 1 !important;
+            z-index: 1000 !important;
+        }
+
+        #page-loader::before {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            /* background-image: linear-gradient(rgba(0, 0, 0, .8) 0, rgba(0, 0, 0, .8) 100%); */
+        }
+    </style>
+</main>

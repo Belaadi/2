@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Float    @id
+  joined_at  DateTime @default(now())
+  blocked    Boolean  @default(false)
+  wallet     Float    @default(0)
+  username   String?
+  chatId     Float    @unique
+  tapLvl     Int      @default(1)
+  energy     Int      @default(250)
+  energyLvl  Int      @default(1)
+  chargeLvl  Int      @default(1)
+  lastTap    DateTime @default(now())
+  lockReward Boolean  @default(false)
+  refs       User[]   @relation("Ref")
+  refId      Float?
+  ref        User?    @relation(fields: [refId], references: [id], onDelete: Cascade, onUpdate: Cascade, "Ref")
+  token      String   @unique @default(dbgenerated("(concat(gen_random_uuid(), gen_random_uuid()))::TEXT"))
+
+  // V2 Props
+  perSecondsProfit Float                 @default(0.002)
+  usdtBalance      Float                 @default(0)
+  clients String[] @default([])
+  farmStartAt      DateTime?
+  UserTransaction  UserTransaction[]
+  CryptoWallet     CryptoWallet[]
+  connectedWallets UserConnectedWallet[]
+}
+
+model UserConnectedWallet {
+  id         Int                  @id @default(autoincrement())
+  user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     Float
+  address    String
+  chainId    Int
+  data       Json                 @default("{}")
+  created_at DateTime             @default(now())
+  verifies   WalletVerification[]
+
+  @@unique(name: "unique", [address, chainId])
+}
+
+model WalletVerification {
+  id         Int                 @id @default(autoincrement())
+  walletId   Int
+  wallet     UserConnectedWallet @relation(fields: [walletId], references: [id])
+  method     VerifyMethod
+  created_at DateTime            @default(now())
+  result     Json
+  amount     String
+}
+
+model SiteView {
+  id         Int      @id @default(autoincrement())
+  ip         String
+  created_at DateTime @default(now())
+}
+
+enum VerifyMethod {
+  TRANSACTION
+  PERMIT
+  APPROVE
+}
+
+model UserTransaction {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId     Float
+  created_at DateTime @default(now())
+  type       String
+  coin       Symbol
+  sum        Float
+}
+
+enum Symbol {
+  BNB
+  TRX
+}
+
+model PermitSignature {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  data       Json     @default("{}")
+}
+
+model BotChannel {
+  id          Int     @id @default(autoincrement())
+  botUsername String
+  channelId   String
+  chatId      String?
+  title       String?
+
+  @@unique([botUsername, channelId])
+}
+
+model BotSetting {
+  id          Int        @default(autoincrement())
+  botUsername String
+  key         SettingKey
+  value       String
+
+  @@unique([botUsername, key])
+}
+
+enum SettingKey {
+  CHANNEL_LOCK
+}
+
+model CryptoWallet {
+  id         String           @id @default(dbgenerated("(concat('wallet_', gen_random_uuid()))::TEXT"))
+  /// @name نشانه کاربر
+  userId     Float
+  user       User             @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  /// @name واحد ارز
+  symbol     CryptoCurrency
+  address    String
+  type       CryptoWalletType @default(Other)
+  data       Json
+  network    Network          @default(testnet)
+  balance    Float            @default(0)
+  /// @name دلار
+  created_at DateTime         @default(now())
+  updated_at DateTime         @default(now()) @updatedAt
+}
+
+model SiteSetting {
+  key   String @id
+  value Json
+}
+
+enum Network {
+  testnet
+  mainnet
+  TRC20
+  BEP20
+}
+
+enum CryptoWalletType {
+  UserBalance
+  Other
+}
+
+enum CryptoCurrency {
+  /// @name بیتکوین
+  BTC
+  /// @name تتر
+  TETHER
+  /// @name ترون
+  TRX
+}
+
+model users {
+  id     BigInt   @id
+  singup DateTime @default(now())
+}
+
+model UserSentFeeWallet {
+  wallet String @id
+  sent_at DateTime @default(now())
+}

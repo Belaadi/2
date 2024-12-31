@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary: #d69915;
+    --secondary: #fd814c;
+    --gradient:  linear-gradient(90deg, var(--primary) 0%, var(--secondary)  47%);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+p {
+    @apply tracking-wide
+}
+
+button {
+  @apply rounded-full bg-primary text-white border-none hover:text-white py-2 px-4 font-extrabold text-base tracking-wider
+}
+button[disabled] {
+  @apply opacity-50
+}
+
+.bg-primary {
+    background-color: var(--primary)
+}
+
+.text-primary {
+    color: var(--primary)
+}
+
+body {
+    background: #1c1c1c;
+}
+
+html, body {
+    overflow-x: hidden;
+    touch-action: none;
+    -ms-touch-action: none;
+}
+body {
+    position: relative;
+    @apply text-white 
+}
+
+.center {
+  @apply flex items-center justify-center
+}
+
+p {
+  @apply text-white
+}
